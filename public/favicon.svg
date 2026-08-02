@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#4f46e5"/>
+      <stop offset="100%" stop-color="#1d4ed8"/>
+    </linearGradient>
+    <linearGradient id="bar3" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#c7d2fe"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Fondo -->
+  <rect width="32" height="32" rx="6" fill="url(#bg)"/>
+
+  <!-- Línea base -->
+  <rect x="4" y="26.5" width="24" height="1.5" rx="0.75" fill="white" opacity="0.35"/>
+
+  <!-- Barra 1 (corta) -->
+  <rect x="4" y="19" width="6" height="7.5" rx="1.5" fill="white" opacity="0.5"/>
+
+  <!-- Barra 2 (media) -->
+  <rect x="13" y="13" width="6" height="13.5" rx="1.5" fill="white" opacity="0.75"/>
+
+  <!-- Barra 3 (alta, gradiente) -->
+  <rect x="22" y="6.5" width="6" height="20" rx="1.5" fill="url(#bar3)"/>
+
+  <!-- Punto de tendencia sobre barra 1 -->
+  <circle cx="7" cy="17.5" r="1.6" fill="#a5b4fc"/>
+
+  <!-- Punto de tendencia sobre barra 2 -->
+  <circle cx="16" cy="11.5" r="1.6" fill="#a5b4fc"/>
+
+  <!-- Punto de tendencia sobre barra 3 -->
+  <circle cx="25" cy="5" r="1.6" fill="#e0e7ff"/>
+
+  <!-- Línea de tendencia -->
+  <polyline points="7,17.5 16,11.5 25,5" stroke="#a5b4fc" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

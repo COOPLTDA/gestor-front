@@ -1,0 +1,12 @@
+# SPA fallback: react-router-dom maneja el ruteo del lado del cliente.
+# Sin esto, refrescar el navegador en cualquier ruta que no sea "/"
+# (ej. /app/biblia) da 404, porque Apache busca un archivo real en disco
+# en vez de servir index.html y dejar que React Router resuelva la ruta.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+  RewriteRule ^ index.html [L]
+</IfModule>

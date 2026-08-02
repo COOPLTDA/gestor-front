@@ -1,0 +1,23 @@
+{
+  "$schema": "./node_modules/@stryker-mutator/core/schema/stryker-schema.json",
+  "packageManager": "npm",
+  "testRunner": "vitest",
+  "vitest": {
+    "configFile": "vitest.stryker.config.ts"
+  },
+  "reporters": ["html", "clear-text", "progress"],
+  "coverageAnalysis": "perTest",
+  "mutate": [
+    "src/pages/biblia/**/*.{ts,tsx}",
+    "!src/pages/biblia/**/*.test.{ts,tsx}",
+    "!src/pages/biblia/types/**",
+    "src/pages/zonificacion/**/*.{ts,tsx}",
+    "!src/pages/zonificacion/**/*.test.{ts,tsx}",
+    "!src/pages/zonificacion/types.ts"
+  ],
+  "thresholds": {
+    "high": 90,
+    "low": 90,
+    "break": 0
+  }
+}

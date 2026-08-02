@@ -1,0 +1,21 @@
+# ─────────────────────────────────────────────────────────────
+# DistriGestion – Backend
+# Uso:
+#   docker build -f Dockerfile.backend -t distrigestion-backend .
+#   docker run -d --env-file server/.env.enro.prod -p 3002:3002 distrigestion-backend
+# ─────────────────────────────────────────────────────────────
+
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Instalar solo dependencias de producción
+COPY package.json package-lock.json ./
+RUN npm ci --omit=dev
+
+# Copiar solo el código del servidor
+COPY server/ ./server/
+
+EXPOSE 3001
+
+CMD ["node", "server/index.js"]

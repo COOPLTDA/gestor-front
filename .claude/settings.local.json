@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install nodemailer)",
+      "Bash(grep -rn '`/api/' \"c:/Users/Marcos Noguera/ownCloud/Desarrollos/DistriGestion/project/src\" --include=\"*.ts\" --include=\"*.tsx\")",
+      "Bash(sed -i -e \"s|''/api/users/change-password''|''/api/distrigestion/users/change-password''|g\" -e \"s|''/api/users''|''/api/distrigestion/users''|g\" \"components/layout/Header.tsx\" \"pages/usuarios/Usuarios.tsx\")",
+      "Bash(sed -i -e \"s|''/api/dashboard''|''/api/distrigestion/dashboard''|g\" \"pages/Dashboard.tsx\")",
+      "Bash(sed -i -e \"s|''/api/reportes/|''/api/distrigestion/reportes/|g\" \"pages/Reportes.tsx\")",
+      "Bash(sed -i -e \"s|''/api/roles''|''/api/distrigestion/roles''|g\" \"pages/Roles.tsx\")",
+      "Bash(node -e \":*)",
+      "Bash(ls \"c:/Users/Marcos Noguera/Desarrollos/\"*.code-workspace)",
+      "Bash(grep -r \"import.*axios\\\\|require.*axios\\\\|from ''axios''\\\\|from \"\"axios\"\"\" \"c:/Users/Marcos Noguera/Desarrollos/Backend-DistriGestion/server\" --include=\"*.js\" -l)",
+      "Bash(npx tsc:*)",
+      "Read(//c/Users/Marcos/**)",
+      "Bash(python3 -c \":*)",
+      "Bash(grep -l \"useModalEscClose\" \"c:/Users/Marcos Noguera/Desarrollos/DistriGestion/src/pages/recibos/components/\"*.tsx)",
+      "Bash(grep -l \"useDraggable\" \"c:/Users/Marcos Noguera/Desarrollos/DistriGestion/src/pages/recibos/components/\"*.tsx \"c:/Users/Marcos Noguera/Desarrollos/DistriGestion/src/pages/recibos/Recibos.tsx\")"
+    ],
+    "additionalDirectories": [
+      "c:\\Users\\Marcos Noguera\\Desarrollos\\Backend-DistriGestion",
+      "c:\\Users\\Marcos Noguera\\Desarrollos",
+      "\\tmp"
+    ]
+  }
+}
