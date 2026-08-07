@@ -71,7 +71,7 @@ const Contactos: React.FC = () => {
   const fetchContactos = async () => {
     try {
       setLoading(true);
-      const res = await fetchWithAuth("/api/distrigestion/contactos");
+      const res = await fetchWithAuth("/api/gestor/contactos");
       const data = await res.json();
       if (!data.success) throw new Error(data.message);
       setInvitados(data.data.invitados);
@@ -713,7 +713,7 @@ const ModalActualizarInvitado: React.FC<{
     setLoading(true);
     try {
       const res = await fetchWithAuth(
-        `/api/distrigestion/clients?search=${encodeURIComponent(term)}&limit=50`
+        `/api/gestor/clients?search=${encodeURIComponent(term)}&limit=50`
       );
 
       const data = await res.json();
@@ -730,7 +730,7 @@ const ModalActualizarInvitado: React.FC<{
 
   const guardarActivoYNombre = async () => {
     try {
-      await fetchWithAuth(`/api/distrigestion/contactos/${invitado.id_contacto}/general`, {
+      await fetchWithAuth(`/api/gestor/contactos/${invitado.id_contacto}/general`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -750,7 +750,7 @@ const ModalActualizarInvitado: React.FC<{
     if (!seleccion) return;
 
     try {
-      await fetchWithAuth(`/api/distrigestion/contactos/${invitado.id_contacto}/asignar`, {
+      await fetchWithAuth(`/api/gestor/contactos/${invitado.id_contacto}/asignar`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ idCliente: seleccion.idCliente }),
@@ -935,7 +935,7 @@ const ModalActualizarCliente: React.FC<{
   const guardarCambios = async () => {
     setGuardando(true);
     try {
-      await fetchWithAuth(`/api/distrigestion/contactos/${cliente.id_contacto}/general`, {
+      await fetchWithAuth(`/api/gestor/contactos/${cliente.id_contacto}/general`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -955,7 +955,7 @@ const ModalActualizarCliente: React.FC<{
 
   const desasignar = async () => {
     try {
-      await fetchWithAuth(`/api/distrigestion/contactos/${cliente.id_contacto}/desasignar`, {
+      await fetchWithAuth(`/api/gestor/contactos/${cliente.id_contacto}/desasignar`, {
         method: "PUT",
       });
       onUpdated();

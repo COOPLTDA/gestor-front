@@ -55,7 +55,7 @@ const Parametros: React.FC = () => {
   const fetchParametros = async () => {
     try {
       setLoading(true);
-      const res = await fetchWithAuth("/api/distrigestion/parametros");
+      const res = await fetchWithAuth("/api/gestor/parametros");
       const result = await res.json();
       if (!result.success) throw new Error(result.message || "Error cargando parámetros");
       setParametros(result.data);
@@ -114,8 +114,8 @@ const Parametros: React.FC = () => {
     try {
       const method = modal.id ? "PUT" : "POST";
       const url = modal.id
-        ? `/api/distrigestion/parametros/${modal.codigo}`
-        : `/api/distrigestion/parametros`;
+        ? `/api/gestor/parametros/${modal.codigo}`
+        : `/api/gestor/parametros`;
       const res = await fetchWithAuth(url, {
         method,
         headers: { "Content-Type": "application/json" },
@@ -133,7 +133,7 @@ const Parametros: React.FC = () => {
   const toggleActivo = async (p: Parametro) => {
     try {
       const actualizado = { ...p, activo: p.activo ? 0 : 1 };
-      const res = await fetchWithAuth(`/api/distrigestion/parametros/${p.codigo}`, {
+      const res = await fetchWithAuth(`/api/gestor/parametros/${p.codigo}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(actualizado),

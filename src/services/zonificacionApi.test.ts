@@ -14,20 +14,20 @@ beforeEach(() => {
 });
 
 describe('zonificacionApi', () => {
-  it('fetchPdv consulta /api/distrigestion/zonificacion/pdv', async () => {
+  it('fetchPdv consulta /api/gestor/zonificacion/pdv', async () => {
     await fetchPdv();
-    expect(requestMock).toHaveBeenCalledWith('/api/distrigestion/zonificacion/pdv');
+    expect(requestMock).toHaveBeenCalledWith('/api/gestor/zonificacion/pdv');
   });
 
-  it('fetchGrupos consulta /api/distrigestion/zonificacion/grupos', async () => {
+  it('fetchGrupos consulta /api/gestor/zonificacion/grupos', async () => {
     await fetchGrupos();
-    expect(requestMock).toHaveBeenCalledWith('/api/distrigestion/zonificacion/grupos');
+    expect(requestMock).toHaveBeenCalledWith('/api/gestor/zonificacion/grupos');
   });
 
   it('crearGrupo hace POST con el body serializado', async () => {
     const nuevo = { nombre: 'Zona Sur', tipo: 'ruta_flete' as const, editablePorOtros: false };
     await crearGrupo(nuevo);
-    expect(requestMock).toHaveBeenCalledWith('/api/distrigestion/zonificacion/grupos', {
+    expect(requestMock).toHaveBeenCalledWith('/api/gestor/zonificacion/grupos', {
       method: 'POST',
       body: JSON.stringify(nuevo),
     });
@@ -36,7 +36,7 @@ describe('zonificacionApi', () => {
   it('actualizarGrupo hace PUT contra el id con el body serializado', async () => {
     const cambios = { nombre: 'Renombrado' };
     await actualizarGrupo(5, cambios);
-    expect(requestMock).toHaveBeenCalledWith('/api/distrigestion/zonificacion/grupos/5', {
+    expect(requestMock).toHaveBeenCalledWith('/api/gestor/zonificacion/grupos/5', {
       method: 'PUT',
       body: JSON.stringify(cambios),
     });
@@ -44,6 +44,6 @@ describe('zonificacionApi', () => {
 
   it('eliminarGrupo hace DELETE contra el id', async () => {
     await eliminarGrupo(5);
-    expect(requestMock).toHaveBeenCalledWith('/api/distrigestion/zonificacion/grupos/5', { method: 'DELETE' });
+    expect(requestMock).toHaveBeenCalledWith('/api/gestor/zonificacion/grupos/5', { method: 'DELETE' });
   });
 });

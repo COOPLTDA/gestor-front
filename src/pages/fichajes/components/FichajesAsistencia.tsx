@@ -116,7 +116,7 @@ export function FichajesAsistencia({ zonas, supervisoresAll, mostrarSupervisor, 
     try {
       const ExcelJS = (await import("exceljs")).default;
       const wb = new ExcelJS.Workbook();
-      wb.creator = "DistriGestion";
+      wb.creator = "CoopGestion";
       const ws = wb.addWorksheet("Asistencia", {
         views: [{ state: "frozen", xSplit: 2, ySplit: 1 }],
       });

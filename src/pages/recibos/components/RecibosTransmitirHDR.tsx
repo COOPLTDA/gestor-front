@@ -119,7 +119,7 @@ const RecibosTransmitirHDR: React.FC<Props> = ({
     );
   
     try {
-      const res = await fetchWithAuth("/api/distrigestion/erp/transmitirHDR", {
+      const res = await fetchWithAuth("/api/gestor/erp/transmitirHDR", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

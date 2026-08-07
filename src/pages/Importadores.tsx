@@ -126,15 +126,15 @@ export default function Importadores() {
   // ── Carga inicial ────────────────────────────────────────────────────────
 
   async function cargarTiposCobro() {
-    const res = await fetchWithAuth("/api/distrigestion/tiposCobroConcilia");
+    const res = await fetchWithAuth("/api/gestor/tiposCobroConcilia");
     if (res.success) setTiposCobro(res.data);
   }
   async function cargarFormatos() {
-    const res = await fetchWithAuth("/api/distrigestion/importadores?soloActivos=0");
+    const res = await fetchWithAuth("/api/gestor/importadores?soloActivos=0");
     if (res.success) setFormatos(res.data);
   }
   async function cargarColumnasGlobales() {
-    const res = await fetchWithAuth("/api/distrigestion/columnas-extra");
+    const res = await fetchWithAuth("/api/gestor/columnas-extra");
     if (res.success) setColumnasGlobales(res.data);
   }
 
@@ -160,7 +160,7 @@ export default function Importadores() {
     setErrorColumnas(null);
     const nombre = nuevaColumna.trim();
     if (!nombre) return;
-    const res = await fetchWithAuth("/api/distrigestion/columnas-extra", {
+    const res = await fetchWithAuth("/api/gestor/columnas-extra", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ nombre, orden: columnasGlobales.length }),
@@ -173,7 +173,7 @@ export default function Importadores() {
   async function guardarEdicionColumna(id: number) {
     const nombre = editandoNombre.trim();
     if (!nombre) return;
-    await fetchWithAuth(`/api/distrigestion/columnas-extra/${id}`, {
+    await fetchWithAuth(`/api/gestor/columnas-extra/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ nombre }),
@@ -183,7 +183,7 @@ export default function Importadores() {
   }
 
   async function eliminarColumnaGlobal(id: number) {
-    await fetchWithAuth(`/api/distrigestion/columnas-extra/${id}`, { method: "DELETE" });
+    await fetchWithAuth(`/api/gestor/columnas-extra/${id}`, { method: "DELETE" });
     cargarColumnasGlobales();
   }
 
@@ -283,12 +283,12 @@ export default function Importadores() {
 
     setGuardando(true);
     const res = form.id
-      ? await fetchWithAuth(`/api/distrigestion/importadores/${form.id}`, {
+      ? await fetchWithAuth(`/api/gestor/importadores/${form.id}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload),
         })
-      : await fetchWithAuth(`/api/distrigestion/importadores`, {
+      : await fetchWithAuth(`/api/gestor/importadores`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload),

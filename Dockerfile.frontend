@@ -1,8 +1,8 @@
 # ─────────────────────────────────────────────────────────────
-# DistriGestion – Frontend
+# CoopGestion – Frontend
 # Uso:
-#   docker build -f Dockerfile.frontend -t distrigestion-frontend .
-#   docker run -d -p 80:80 distrigestion-frontend
+#   docker build -f Dockerfile.frontend -t gestor-frontend .
+#   docker run -d -p 80:80 gestor-frontend
 #
 # El build genera assets estáticos; las llamadas /api y /mobileApp
 # las proxea Nginx al contenedor backend (ver nginx.conf).

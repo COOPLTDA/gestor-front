@@ -52,8 +52,8 @@ const Reportes: React.FC = () => {
     const fetchReports = async () => {
       try {
         const [pedidosResponse, conversacionesResponse] = await Promise.all([
-          fetchWithAuth('/api/distrigestion/reportes/pedidos'),
-          fetchWithAuth('/api/distrigestion/reportes/conversaciones')
+          fetchWithAuth('/api/gestor/reportes/pedidos'),
+          fetchWithAuth('/api/gestor/reportes/conversaciones')
         ]);
 
         if (!pedidosResponse.ok || !conversacionesResponse.ok) {

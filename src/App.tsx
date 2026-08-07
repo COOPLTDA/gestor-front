@@ -75,7 +75,7 @@ const PermissionRoute = () => {
       setAllowedRoutes(_cachedRoutes);
       return;
     }
-    fetchWithAuth("/api/distrigestion/menu")
+    fetchWithAuth("/api/gestor/menu")
       .then(r => r.json())
       .then((data: any) => {
         if (data.success) {

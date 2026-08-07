@@ -1,51 +1,44 @@
 #!/bin/bash
 set -e
 
-echo "🚀 Deploy FRONTEND iniciado..."
+echo "=== DEPLOY FRONTEND ==="
 
-REPO_DIR="/home/grupo/repo-frontend"
-DIST_DIR="$REPO_DIR/dist"
+cd "$(dirname "$0")" || exit
 
-echo "📥 Actualizando repo..."
-cd $REPO_DIR || exit
-git fetch origin
-git reset --hard origin/main
+# Rama actual
 
-echo "📦 Instalando dependencias..."
-npm install
+CURRENT_BRANCH=$(git branch --show-current)
+echo "Rama actual: $CURRENT_BRANCH"
 
-# ============================================================
-# BUILD CDL
-# ============================================================
-echo ""
-echo "🔨 Compilando CDL..."
-npm run build -- --mode cdl.prod
+# Nos aseguramos de estar en dev
 
-echo "🗑️  Limpiando destino CDL..."
-rm -rf /var/www/DistriGestion/assets
-rm -f  /var/www/DistriGestion/index.html
+git checkout dev || exit
 
-echo "🔄 Copiando CDL → /var/www/DistriGestion..."
-rsync -av $DIST_DIR/ /var/www/DistriGestion/
+# Agregar cambios
 
-echo "✅ CDL listo"
+git add .
 
-# ============================================================
-# BUILD ENRO
-# ============================================================
-echo ""
-echo "🔨 Compilando ENRO..."
-npm run build -- --mode enro.prod
+# Commit
 
-echo "🗑️  Limpiando destino ENRO..."
-rm -rf /var/www/DistriGestionEnro/assets
-rm -f  /var/www/DistriGestionEnro/index.html
+read -p "Mensaje de commit: " msg
+git commit -m "$msg"
 
-echo "🔄 Copiando ENRO → /var/www/DistriGestionEnro..."
-rsync -av $DIST_DIR/ /var/www/DistriGestionEnro/
+# Push a dev
 
-echo "✅ ENRO listo"
+git push origin dev
 
-# ============================================================
-echo ""
-echo "🎉 Deploy FRONTEND finalizado"
+# Merge a main
+
+git checkout main || exit
+git pull origin main
+git merge dev
+
+# Push a main
+
+git push origin main
+
+# Volver a dev
+
+git checkout dev
+
+echo "=== DEPLOY FRONTEND COMPLETADO ==="

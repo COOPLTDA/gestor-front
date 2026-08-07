@@ -41,7 +41,7 @@ const Conversaciones: React.FC = () => {
       if (filters.desde) params.append('desde', filters.desde);
       if (filters.hasta) params.append('hasta', filters.hasta);
 
-      const response = await fetchWithAuth(`/api/distrigestion/conversations?${params}`);
+      const response = await fetchWithAuth(`/api/gestor/conversations?${params}`);
 
       if (!response.ok) {
         throw new Error('Error cargando conversaciones');

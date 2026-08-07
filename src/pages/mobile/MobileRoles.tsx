@@ -48,7 +48,7 @@ export default function MobileRoles() {
   // =======================================================
   const loadRoles = async () => {
     setLoading(true);
-    const res = await fetchWithAuth("/api/distrigestion/mobile-admin/roles");
+    const res = await fetchWithAuth("/api/gestor/mobile-admin/roles");
     const data = safeJson(res);
     if (data.success) {
       setRoles(data.data);
@@ -95,7 +95,7 @@ export default function MobileRoles() {
     };
 
     const method = form.id ? "PUT" : "POST";
-    const url = form.id ? `/api/distrigestion/mobile-admin/roles/${form.id}` : "/api/distrigestion/mobile-admin/roles";
+    const url = form.id ? `/api/gestor/mobile-admin/roles/${form.id}` : "/api/gestor/mobile-admin/roles";
 
     const res = await fetchWithAuth(url, { method, body: JSON.stringify(payload) });
     const data = safeJson(res);

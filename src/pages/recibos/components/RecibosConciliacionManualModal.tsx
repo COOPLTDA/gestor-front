@@ -102,7 +102,7 @@ const RecibosConciliacionManualModal: React.FC<Props> = ({
 
   // Cargar columnas globales una sola vez
   useEffect(() => {
-    fetchWithAuth("/api/distrigestion/columnas-extra").then((res) => {
+    fetchWithAuth("/api/gestor/columnas-extra").then((res) => {
       if (res.success) setColumnasGlobales(res.data ?? []);
     });
   }, []);
@@ -137,7 +137,7 @@ const RecibosConciliacionManualModal: React.FC<Props> = ({
 
     const init = async () => {
       try {
-        const res = await fetchWithAuth("/api/distrigestion/tipos-cobro?concilia=S");
+        const res = await fetchWithAuth("/api/gestor/tipos-cobro?concilia=S");
         const json = await res.json();
         const tipos: TipoCobro[] = json.success ? json.data : [];
         setTiposCobro(tipos);
@@ -172,7 +172,7 @@ const RecibosConciliacionManualModal: React.FC<Props> = ({
     if (!codigos.length || !desde || !hasta) return;
     setLoading(true);
     try {
-      const res = await fetchWithAuth("/api/distrigestion/conciliacion/manual/no-conciliados", {
+      const res = await fetchWithAuth("/api/gestor/conciliacion/manual/no-conciliados", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ codigos, fechaDesde: desde, fechaHasta: hasta }),

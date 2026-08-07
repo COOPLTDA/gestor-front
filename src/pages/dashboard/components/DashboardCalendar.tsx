@@ -181,7 +181,7 @@ export default function DashboardCalendar() {
   const cargarTareas = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await fetchWithAuth(`/api/distrigestion/dashboard-home/tareas?mes=${mesStr}`);
+      const res = await fetchWithAuth(`/api/gestor/dashboard-home/tareas?mes=${mesStr}`);
       if (res.success) {
         setTareas((res.data as any[]).map((t: any) => ({
           ...t,
@@ -261,7 +261,7 @@ export default function DashboardCalendar() {
   async function loadUsuarios() {
     if (usuariosLoaded) return;
     try {
-      const res = await fetchWithAuth('/api/distrigestion/users');
+      const res = await fetchWithAuth('/api/gestor/users');
       if (res.success) {
         setUsuarios(((res.data as any[]) || []).filter((u: any) => u.activo));
         setUsuariosLoaded(true);
@@ -291,11 +291,11 @@ export default function DashboardCalendar() {
       };
 
       const res = editingTarea
-        ? await fetchWithAuth(`/api/distrigestion/dashboard-home/tareas/${editingTarea.id}`, {
+        ? await fetchWithAuth(`/api/gestor/dashboard-home/tareas/${editingTarea.id}`, {
             method: 'PUT',
             body: JSON.stringify(body),
           })
-        : await fetchWithAuth('/api/distrigestion/dashboard-home/tareas', {
+        : await fetchWithAuth('/api/gestor/dashboard-home/tareas', {
             method: 'POST',
             body: JSON.stringify(body),
           });
@@ -317,7 +317,7 @@ export default function DashboardCalendar() {
   async function handleDelete(t: Tarea) {
     if (!confirm(`¿Eliminar "${t.titulo}"?`)) return;
     try {
-      const res = await fetchWithAuth(`/api/distrigestion/dashboard-home/tareas/${t.id}`, { method: 'DELETE' });
+      const res = await fetchWithAuth(`/api/gestor/dashboard-home/tareas/${t.id}`, { method: 'DELETE' });
       if (res.success) {
         setTareas(prev => prev.filter(x => x.id !== t.id));
         toast({ title: 'Tarea eliminada' });

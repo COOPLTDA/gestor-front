@@ -3,7 +3,7 @@
 // Centralizar todas las rutas de la API en un único lugar.
 // ============================================================
 
-const DG = '/api/distrigestion';
+const DG = '/api/gestor';
 
 export const API = {
   AUTH: {
@@ -91,7 +91,7 @@ export const API = {
     ANALYTICS_ASISTENCIA:   `${DG}/fichajes/analytics/asistencia`,
     ANALYTICS_REPORTE:      `${DG}/fichajes/analytics/reporte-diario`,
   },
-  // Administración de apps mobile (gestionado desde DistriGestion web)
+  // Administración de apps mobile (gestionado desde CoopGestion web)
   MOBILE_ADMIN: {
     USUARIOS: `${DG}/mobile-admin/usuarios`,
     ROLES: `${DG}/mobile-admin/roles`,

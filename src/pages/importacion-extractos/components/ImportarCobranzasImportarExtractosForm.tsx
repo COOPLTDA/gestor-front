@@ -59,7 +59,7 @@ export function ImportarCobranzasImportarExtractosForm({
   async function verificarExistencia(codigo_cobranza: string, fecha: string) {
     setVerificandoExistencia(true);
     const params = new URLSearchParams({ codigo_cobranza, fecha }).toString();
-    const res = await fetchWithAuth(`/api/distrigestion/extractos/existe?${params}`);
+    const res = await fetchWithAuth(`/api/gestor/extractos/existe?${params}`);
     setVerificandoExistencia(false);
 
     if (res.success) {
@@ -107,7 +107,7 @@ export function ImportarCobranzasImportarExtractosForm({
     formData.append("file", archivo);
 
     setImportando(true);
-    const res = await fetchWithAuth("/api/distrigestion/extractos/importar", {
+    const res = await fetchWithAuth("/api/gestor/extractos/importar", {
       method: "POST",
       body: formData,
     });

@@ -23,7 +23,7 @@ const Dashboard: React.FC = () => {
   const [kpis, setKpis] = useState<KPIs | null>(null);
 
   useEffect(() => {
-    fetchWithAuth('/api/distrigestion/dashboard')
+    fetchWithAuth('/api/gestor/dashboard')
       .then(res => {
         if (res.success && (res.data as any)?.kpis) {
           setKpis((res.data as any).kpis);

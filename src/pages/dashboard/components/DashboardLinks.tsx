@@ -69,7 +69,7 @@ export default function DashboardLinks() {
   async function cargarLinks() {
     setLoading(true);
     try {
-      const res = await fetchWithAuth('/api/distrigestion/dashboard-home/links');
+      const res = await fetchWithAuth('/api/gestor/dashboard-home/links');
       if (res.success) setLinks(res.data as DashLink[]);
     } catch {
       // silencioso
@@ -112,11 +112,11 @@ export default function DashboardLinks() {
       };
 
       const res = editingLink
-        ? await fetchWithAuth(`/api/distrigestion/dashboard-home/links/${editingLink.id}`, {
+        ? await fetchWithAuth(`/api/gestor/dashboard-home/links/${editingLink.id}`, {
             method: 'PUT',
             body: JSON.stringify(body),
           })
-        : await fetchWithAuth('/api/distrigestion/dashboard-home/links', {
+        : await fetchWithAuth('/api/gestor/dashboard-home/links', {
             method: 'POST',
             body: JSON.stringify(body),
           });
@@ -138,7 +138,7 @@ export default function DashboardLinks() {
   async function handleDelete(link: DashLink) {
     if (!confirm(`¿Eliminar "${link.titulo}"?`)) return;
     try {
-      const res = await fetchWithAuth(`/api/distrigestion/dashboard-home/links/${link.id}`, {
+      const res = await fetchWithAuth(`/api/gestor/dashboard-home/links/${link.id}`, {
         method: 'DELETE',
       });
       if (res.success) {

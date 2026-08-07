@@ -135,7 +135,7 @@ const RecibosEditarModal: React.FC<Props> = ({
         setLoading(true);
         setError(null);
 
-        const res = await fetchWithAuth(`/api/distrigestion/recibos/${reciboId}`);
+        const res = await fetchWithAuth(`/api/gestor/recibos/${reciboId}`);
         if (!res.success) {
           setError(res.message || "Error cargando recibo.");
           return;
@@ -240,7 +240,7 @@ const RecibosEditarModal: React.FC<Props> = ({
       })),
     };
   
-    const res = await fetchWithAuth(`/api/distrigestion/recibos/${reciboId}`, {
+    const res = await fetchWithAuth(`/api/gestor/recibos/${reciboId}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),

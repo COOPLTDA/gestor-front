@@ -11,6 +11,9 @@ interface HeaderProps {
 
 const empresa = import.meta.env.VITE_APP_EMPRESA as string | undefined;
 const entorno = import.meta.env.VITE_APP_ENTORNO as string | undefined;
+const appName = (import.meta.env.VITE_APP_NAME as string | undefined) || "CoopGestion";
+const appNameAccent = appName.slice(-Math.ceil(appName.length / 2));
+const appNamePrefix = appName.slice(0, appName.length - appNameAccent.length);
 
 const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
   const { user, logout } = useAuth();
@@ -49,7 +52,7 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
     if (cpNew !== cpConfirm) { setCpError('Las contraseñas no coinciden.'); return; }
     setCpLoading(true);
     try {
-      const res = await fetchWithAuth('/api/distrigestion/users/change-password', {
+      const res = await fetchWithAuth('/api/gestor/users/change-password', {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ currentPassword: cpCurrent, newPassword: cpNew }),
@@ -72,7 +75,7 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
     const formatted =
       path.charAt(0).toUpperCase() + path.slice(1).replace(/-/g, " ");
     setPageTitle(formatted);
-    document.title = `DistriGestión – ${formatted}`;
+    document.title = `${appName} – ${formatted}`;
   }, [location.pathname]);
 
   const handleLogout = async () => {
@@ -82,21 +85,21 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
 
   return (
     <>
-    <header className="bg-white/90 backdrop-blur-sm border-b border-gray-200 h-16 flex items-center justify-between px-6 shadow-sm transition-all">
+    <header className="bg-card/90 backdrop-blur-sm border-b border-border h-16 flex items-center justify-between px-6 shadow-sm transition-all">
       {/* Izquierda */}
       <div className="flex items-center space-x-4">
         <button
           onClick={onToggleSidebar}
-          className="p-2 rounded-lg hover:bg-blue-50 transition-colors"
+          className="p-2 rounded-lg hover:bg-accent/60 transition-colors"
         >
-          <Menu className="w-5 h-5 text-slate-700" />
+          <Menu className="w-5 h-5 text-foreground/80" />
         </button>
 
         <Link to="/app/dashboard" className="flex flex-col leading-none group" title="Ir al inicio">
-          <span className="font-display text-base font-800 font-extrabold text-slate-900 tracking-tight group-hover:text-blue-700 transition-colors">
-            Distri<span className="text-emerald-500">Gestión</span>
+          <span className="font-display text-base font-800 font-extrabold text-foreground tracking-tight group-hover:text-primary transition-colors">
+            {appNamePrefix}<span className="text-primary">{appNameAccent}</span>
           </span>
-          <span className="font-display text-[11px] font-semibold text-slate-400 tracking-widest uppercase mt-0.5">
+          <span className="font-display text-[11px] font-semibold text-muted-foreground tracking-widest uppercase mt-0.5">
             {pageTitle}
           </span>
         </Link>
@@ -108,12 +111,12 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
         {(empresa || entorno) && (
           <div className="hidden sm:flex items-center gap-2">
             {empresa && (
-              <span className="text-sm font-semibold text-slate-700">{empresa}</span>
+              <span className="text-sm font-semibold text-foreground/80">{empresa}</span>
             )}
             {entorno && (
               <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${
                 entorno.toLowerCase().includes('prod')
-                  ? 'bg-emerald-100 text-emerald-700 border border-emerald-200'
+                  ? 'bg-accent text-primary border border-primary/20'
                   : 'bg-amber-100 text-amber-700 border border-amber-200'
               }`}>
                 {entorno}
@@ -124,14 +127,14 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
         <div className="relative">
           <button
             onClick={() => setShowUserMenu(!showUserMenu)}
-            className="flex items-center space-x-3 p-2 rounded-lg hover:bg-blue-50 transition-all"
+            className="flex items-center space-x-3 p-2 rounded-lg hover:bg-accent/60 transition-all"
           >
-            <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-              <User className="w-4 h-4 text-blue-600" />
+            <div className="w-8 h-8 bg-accent rounded-full flex items-center justify-center">
+              <User className="w-4 h-4 text-primary" />
             </div>
             <div className="hidden sm:block text-left">
-              <p className="text-sm font-medium text-slate-800">{user?.nombre}</p>
-              <p className="text-xs text-slate-500">{user?.email}</p>
+              <p className="text-sm font-medium text-foreground">{user?.nombre}</p>
+              <p className="text-xs text-muted-foreground">{user?.email}</p>
             </div>
           </button>
 
@@ -141,24 +144,24 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
                 className="fixed inset-0 z-10"
                 onClick={() => setShowUserMenu(false)}
               />
-              <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-100 z-20">
-                <div className="p-3 border-b border-gray-100">
-                  <p className="text-sm font-medium text-slate-800">{user?.nombre}</p>
-                  <p className="text-xs text-slate-500">{user?.email}</p>
+              <div className="absolute right-0 mt-2 w-48 bg-popover rounded-lg shadow-lg border border-border z-20">
+                <div className="p-3 border-b border-border">
+                  <p className="text-sm font-medium text-foreground">{user?.nombre}</p>
+                  <p className="text-xs text-muted-foreground">{user?.email}</p>
                 </div>
                 <div className="p-1">
                   <button
                     onClick={openChangePassword}
-                    className="flex items-center w-full px-3 py-2 text-sm text-slate-700 hover:bg-blue-50 rounded-md transition-colors"
+                    className="flex items-center w-full px-3 py-2 text-sm text-foreground/80 hover:bg-accent/60 rounded-md transition-colors"
                   >
-                    <KeyRound className="w-4 h-4 mr-3 text-blue-600" />
+                    <KeyRound className="w-4 h-4 mr-3 text-primary" />
                     Cambiar contraseña
                   </button>
                   <button
                     onClick={handleLogout}
-                    className="flex items-center w-full px-3 py-2 text-sm text-slate-700 hover:bg-blue-50 rounded-md transition-colors"
+                    className="flex items-center w-full px-3 py-2 text-sm text-foreground/80 hover:bg-accent/60 rounded-md transition-colors"
                   >
-                    <LogOut className="w-4 h-4 mr-3 text-blue-600" />
+                    <LogOut className="w-4 h-4 mr-3 text-primary" />
                     Cerrar Sesión
                   </button>
                 </div>
@@ -184,28 +187,28 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 16 }}
             transition={{ duration: 0.2 }}
-            className="bg-white rounded-2xl shadow-2xl w-full max-w-sm overflow-hidden"
+            className="bg-card rounded-2xl shadow-2xl w-full max-w-sm overflow-hidden"
           >
             {/* Header del modal */}
-            <div className="bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-5 flex items-center gap-3">
-              <div className="bg-white/20 rounded-full p-2">
-                <KeyRound className="w-5 h-5 text-white" />
+            <div className="bg-primary px-6 py-5 flex items-center gap-3">
+              <div className="bg-primary-foreground/20 rounded-full p-2">
+                <KeyRound className="w-5 h-5 text-primary-foreground" />
               </div>
               <div>
-                <h2 className="text-white font-semibold text-base">Cambiar contraseña</h2>
-                <p className="text-blue-100 text-xs mt-0.5">{user?.nombre}</p>
+                <h2 className="text-primary-foreground font-semibold text-base">Cambiar contraseña</h2>
+                <p className="text-primary-foreground/80 text-xs mt-0.5">{user?.nombre}</p>
               </div>
             </div>
 
             <div className="p-6">
               {cpSuccess ? (
                 <div className="text-center py-2">
-                  <CheckCircle className="w-12 h-12 text-green-500 mx-auto mb-3" />
-                  <p className="text-slate-700 font-medium mb-1">Contraseña actualizada</p>
-                  <p className="text-slate-500 text-sm mb-6">Tu contraseña fue cambiada correctamente.</p>
+                  <CheckCircle className="w-12 h-12 text-primary mx-auto mb-3" />
+                  <p className="text-foreground font-medium mb-1">Contraseña actualizada</p>
+                  <p className="text-muted-foreground text-sm mb-6">Tu contraseña fue cambiada correctamente.</p>
                   <button
                     onClick={closeChangePassword}
-                    className="bg-blue-600 text-white px-6 py-2.5 rounded-lg text-sm font-semibold hover:bg-blue-700 transition"
+                    className="bg-primary text-primary-foreground px-6 py-2.5 rounded-lg text-sm font-semibold hover:bg-primary/90 transition"
                   >
                     Cerrar
                   </button>
@@ -214,20 +217,20 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
                 <form onSubmit={handleChangePassword} className="space-y-4">
                   {/* Contraseña actual */}
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-1.5">Contraseña actual</label>
+                    <label className="block text-sm font-medium text-foreground/80 mb-1.5">Contraseña actual</label>
                     <div className="relative">
                       <input
                         type={cpShowCurrent ? 'text' : 'password'}
                         value={cpCurrent}
                         onChange={(e) => setCpCurrent(e.target.value)}
-                        className="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm pr-10 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+                        className="w-full border border-input rounded-lg px-3 py-2.5 text-sm pr-10 bg-background text-foreground focus:ring-2 focus:ring-ring focus:border-transparent outline-none transition"
                         placeholder="Tu contraseña actual"
                         required
                         disabled={cpLoading}
                         autoFocus
                       />
                       <button type="button" onClick={() => setCpShowCurrent(!cpShowCurrent)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition">
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition">
                         {cpShowCurrent ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                       </button>
                     </div>
@@ -235,20 +238,20 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
 
                   {/* Nueva contraseña */}
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-1.5">Nueva contraseña</label>
+                    <label className="block text-sm font-medium text-foreground/80 mb-1.5">Nueva contraseña</label>
                     <div className="relative">
                       <input
                         type={cpShowNew ? 'text' : 'password'}
                         value={cpNew}
                         onChange={(e) => setCpNew(e.target.value)}
-                        className="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm pr-10 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+                        className="w-full border border-input rounded-lg px-3 py-2.5 text-sm pr-10 bg-background text-foreground focus:ring-2 focus:ring-ring focus:border-transparent outline-none transition"
                         placeholder="Mínimo 6 caracteres"
                         required
                         minLength={6}
                         disabled={cpLoading}
                       />
                       <button type="button" onClick={() => setCpShowNew(!cpShowNew)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition">
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition">
                         {cpShowNew ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                       </button>
                     </div>
@@ -256,12 +259,12 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
 
                   {/* Confirmar */}
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-1.5">Confirmar nueva contraseña</label>
+                    <label className="block text-sm font-medium text-foreground/80 mb-1.5">Confirmar nueva contraseña</label>
                     <input
                       type="password"
                       value={cpConfirm}
                       onChange={(e) => setCpConfirm(e.target.value)}
-                      className="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+                      className="w-full border border-input rounded-lg px-3 py-2.5 text-sm bg-background text-foreground focus:ring-2 focus:ring-ring focus:border-transparent outline-none transition"
                       placeholder="Repetí la nueva contraseña"
                       required
                       disabled={cpLoading}
@@ -269,7 +272,7 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
                   </div>
 
                   {cpError && (
-                    <div className="flex items-center gap-2 bg-red-50 border border-red-200 text-red-700 rounded-lg p-3 text-sm">
+                    <div className="flex items-center gap-2 bg-destructive/10 border border-destructive/20 text-destructive rounded-lg p-3 text-sm">
                       <AlertCircle className="w-4 h-4 shrink-0" />
                       <span>{cpError}</span>
                     </div>
@@ -277,14 +280,14 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
 
                   <div className="flex gap-3 pt-1">
                     <button type="button" onClick={closeChangePassword} disabled={cpLoading}
-                      className="flex-1 border border-slate-300 text-slate-600 py-2.5 rounded-lg text-sm font-medium hover:bg-slate-50 transition">
+                      className="flex-1 border border-input text-muted-foreground py-2.5 rounded-lg text-sm font-medium hover:bg-accent/60 transition">
                       Cancelar
                     </button>
                     <button type="submit" disabled={cpLoading || !cpCurrent || !cpNew || !cpConfirm}
-                      className="flex-1 bg-blue-600 text-white py-2.5 rounded-lg text-sm font-semibold hover:bg-blue-700 transition disabled:bg-blue-300">
+                      className="flex-1 bg-primary text-primary-foreground py-2.5 rounded-lg text-sm font-semibold hover:bg-primary/90 transition disabled:opacity-50">
                       {cpLoading ? (
                         <div className="flex justify-center items-center gap-2">
-                          <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                          <div className="w-4 h-4 border-2 border-primary-foreground border-t-transparent rounded-full animate-spin" />
                           <span>Guardando...</span>
                         </div>
                       ) : 'Guardar'}

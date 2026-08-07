@@ -17,7 +17,7 @@ const Roles: React.FC = () => {
 
   const fetchRoles = async () => {
     try {
-      const response = await fetchWithAuth('/api/distrigestion/roles');
+      const response = await fetchWithAuth('/api/gestor/roles');
 
       if (!response.ok) {
         throw new Error('Error cargando roles');

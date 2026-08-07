@@ -188,7 +188,7 @@ export async function exportReporteDiario(params: {
   // 3. Construir Excel con ExcelJS
   const ExcelJS = (await import("exceljs")).default;
   const wb = new ExcelJS.Workbook();
-  wb.creator = "DistriGestion";
+  wb.creator = "CoopGestion";
 
   // ── Hoja de datos ──────────────────────────────────────────
   const ws = wb.addWorksheet("Reporte Diario");

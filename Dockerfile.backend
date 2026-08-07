@@ -1,8 +1,8 @@
 # ─────────────────────────────────────────────────────────────
-# DistriGestion – Backend
+# CoopGestion – Backend
 # Uso:
-#   docker build -f Dockerfile.backend -t distrigestion-backend .
-#   docker run -d --env-file server/.env.enro.prod -p 3002:3002 distrigestion-backend
+#   docker build -f Dockerfile.backend -t gestor-backend .
+#   docker run -d --env-file server/.env.enro.prod -p 3002:3002 gestor-backend
 # ─────────────────────────────────────────────────────────────
 
 FROM node:20-alpine

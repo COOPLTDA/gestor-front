@@ -38,7 +38,7 @@ const HojaRutaSelector: React.FC<Props> = ({ onSelect, compact = false, onCambia
   const fetchHojas = async () => {
     try {
       setLoading(true);
-      const res = await fetchWithAuth("/api/distrigestion/hojas-ruta");
+      const res = await fetchWithAuth("/api/gestor/hojas-ruta");
       const json = await res.json();
       if (json.success) setHojas(json.data);
     } finally {

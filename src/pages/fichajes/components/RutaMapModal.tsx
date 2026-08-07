@@ -503,7 +503,7 @@ export function RutaMapModal({ empleado, nombreVendedor, fecha, onClose }: Props
       // 2. Crear workbook con ExcelJS
       const ExcelJS = (await import("exceljs")).default;
       const wb = new ExcelJS.Workbook();
-      wb.creator = "DistriGestion";
+      wb.creator = "CoopGestion";
 
       // ── Hoja 1: Clientes ──────────────────────────────────
       const ws = wb.addWorksheet("Clientes");

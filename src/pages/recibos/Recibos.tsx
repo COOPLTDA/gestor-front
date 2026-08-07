@@ -163,7 +163,7 @@
      // ========================================================
      useEffect(() => {
        (async () => {
-         const res = await fetchWithAuth("/api/distrigestion/tipos-cobro");
+         const res = await fetchWithAuth("/api/gestor/tipos-cobro");
          const json = await res.json();
    
          if (json.success) {
@@ -206,7 +206,7 @@
        try {
          const resultados = await Promise.all(
            hojas.map((h) =>
-             fetchWithAuth(`/api/distrigestion/recibos-valores/${h.hoja_ruta}`)
+             fetchWithAuth(`/api/gestor/recibos-valores/${h.hoja_ruta}`)
                .then((r) => r.json())
                .then((json) => ({ json, hojaRuta: h.hoja_ruta }))
            )
@@ -296,7 +296,7 @@
      const aplicarObservacionesConfirmado = async () => {
        setConfirmObs(false);
    
-       const res = await fetchWithAuth("/api/distrigestion/recibos-valores/actualizar-observacion", {
+       const res = await fetchWithAuth("/api/gestor/recibos-valores/actualizar-observacion", {
          method: "PUT",
          headers: { "Content-Type": "application/json" },
          body: JSON.stringify({ updates: pendingUpdates }),
@@ -437,7 +437,7 @@
          try {
            const resultados = await Promise.all(
              hojasSeleccionadas.map((h) =>
-               fetchWithAuth("/api/distrigestion/conciliacion/hdr/estado", {
+               fetchWithAuth("/api/gestor/conciliacion/hdr/estado", {
                  method: "POST",
                  headers: { "Content-Type": "application/json" },
                  body: JSON.stringify({ hojaRuta: h.hoja_ruta }),
@@ -501,7 +501,7 @@
          try {
            const resultados = await Promise.all(
              hojasSeleccionadas.map((h) =>
-               fetchWithAuth("/api/distrigestion/conciliacion/hdr/estado", {
+               fetchWithAuth("/api/gestor/conciliacion/hdr/estado", {
                  method: "POST",
                  headers: { "Content-Type": "application/json" },
                  body: JSON.stringify({ hojaRuta: h.hoja_ruta }),
@@ -616,7 +616,7 @@
        if (!cobranzaIds.length) return;
        setQuitandoDecimales(true);
        try {
-         const res = await fetchWithAuth("/api/distrigestion/recibos-valores/quitar-decimales", {
+         const res = await fetchWithAuth("/api/gestor/recibos-valores/quitar-decimales", {
            method: "POST",
            headers: { "Content-Type": "application/json" },
            body: JSON.stringify({ cobranzaIds }),
@@ -1385,7 +1385,7 @@
                  },
                }));
                // Persistir inmediatamente en la base de datos
-               fetchWithAuth("/api/distrigestion/conciliacion/hdr/aplicar", {
+               fetchWithAuth("/api/gestor/conciliacion/hdr/aplicar", {
                  method: "POST",
                  headers: { "Content-Type": "application/json" },
                  body: JSON.stringify({ pares: [{ extractoId: data.extractoId, valorId }] }),
@@ -1401,7 +1401,7 @@
              }}
             onReplicarTipoCobro={async (valorId, nuevoCodigo) => {
               try {
-                const res = await fetchWithAuth("/api/distrigestion/recibos-valores/actualizar-codigo", {
+                const res = await fetchWithAuth("/api/gestor/recibos-valores/actualizar-codigo", {
                   method: "PUT",
                   headers: { "Content-Type": "application/json" },
                   body: JSON.stringify({ valorId, codigo: nuevoCodigo }),
@@ -1577,7 +1577,7 @@
 
                        for (const c of modalEliminarRecibo.cobranzas) {
                          const res = await fetchWithAuth(
-                           `/api/distrigestion/recibos/${c.cobranzaId}`,
+                           `/api/gestor/recibos/${c.cobranzaId}`,
                            { method: "DELETE" }
                          );
                          if (!res.ok) {

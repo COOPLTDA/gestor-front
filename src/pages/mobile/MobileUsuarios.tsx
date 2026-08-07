@@ -109,20 +109,20 @@ export default function MobileUsuarios() {
   // =======================================================
   const loadUsuarios = async () => {
     setLoading(true);
-    const res = await fetchWithAuth("/api/distrigestion/mobile-admin/usuarios");
+    const res = await fetchWithAuth("/api/gestor/mobile-admin/usuarios");
     const data = safeJson(res);
     if (data.success) setUsuarios(data.data);
     setLoading(false);
   };
 
   const loadRoles = async () => {
-    const res = await fetchWithAuth("/api/distrigestion/mobile-admin/roles");
+    const res = await fetchWithAuth("/api/gestor/mobile-admin/roles");
     const data = safeJson(res);
     if (data.success) setRoles(data.data);
   };
 
   const loadVendedores = async () => {
-    const res = await fetchWithAuth("/api/distrigestion/mobile-admin/vendedores");
+    const res = await fetchWithAuth("/api/gestor/mobile-admin/vendedores");
     const data = safeJson(res);
     if (data.success) {
       const ordenados = [...data.data].sort(
@@ -257,7 +257,7 @@ export default function MobileUsuarios() {
     };
 
     const method = editMode ? "PUT" : "POST";
-    const url = editMode ? `/api/distrigestion/mobile-admin/usuarios/${form.id}` : "/api/distrigestion/mobile-admin/usuarios";
+    const url = editMode ? `/api/gestor/mobile-admin/usuarios/${form.id}` : "/api/gestor/mobile-admin/usuarios";
 
     const res = await fetchWithAuth(url, { method, body: JSON.stringify(payload) });
     const data = safeJson(res);

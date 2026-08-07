@@ -108,7 +108,7 @@ const RecibosConciliacionActions: React.FC<Props> = ({
 
       const resultados = await Promise.all(
         hojaRutas.map((hr) =>
-          fetchWithAuth("/api/distrigestion/conciliacion/hdr/preview", {
+          fetchWithAuth("/api/gestor/conciliacion/hdr/preview", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ hojaRuta: hr, ignorarCentavos, fechaDesde, fechaHasta, omitirTipoCobro, validarEfectivo }),
@@ -216,7 +216,7 @@ const RecibosConciliacionActions: React.FC<Props> = ({
           .map((c) => ({ extractoId: c.extractoId!, valorId: c.valorId }));
 
         if (paresSimples.length > 0) {
-          await fetchWithAuth("/api/distrigestion/conciliacion/hdr/aplicar", {
+          await fetchWithAuth("/api/gestor/conciliacion/hdr/aplicar", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ pares: paresSimples }),
@@ -281,7 +281,7 @@ const RecibosConciliacionActions: React.FC<Props> = ({
     try {
       setLoading(true);
 
-      await fetchWithAuth("/api/distrigestion/conciliacion/hdr/desvincular", {
+      await fetchWithAuth("/api/gestor/conciliacion/hdr/desvincular", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ extractos }),

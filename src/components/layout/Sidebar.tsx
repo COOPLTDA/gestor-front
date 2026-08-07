@@ -10,6 +10,10 @@ import {
 import { Link, useLocation } from "react-router-dom";
 import { fetchWithAuth } from "@/utils/fetchWithAuth";
 
+const appName = (import.meta.env.VITE_APP_NAME as string | undefined) || "CoopGestion";
+const appNameAccent = appName.slice(-Math.ceil(appName.length / 2));
+const appNamePrefix = appName.slice(0, appName.length - appNameAccent.length);
+
 // Convierte kebab-case a PascalCase para que funcionen iconos guardados en la DB
 // como "scan-face" o "user-round-check" independientemente del formato.
 function kebabToPascal(s: string): string {
@@ -64,7 +68,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
     const fetchMenu = async () => {
       try {
         setError("");
-        const res = await fetchWithAuth("/api/distrigestion/menu");
+        const res = await fetchWithAuth("/api/gestor/menu");
         if (!res.ok) throw new Error("Error cargando menú");
         const json = await res.json();
         setMenu(json.data || []);
@@ -118,15 +122,15 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
     return results;
   }, [query, menu]);
 
-  if (loading) return <div className="p-6 text-gray-500 text-sm">Cargando menú...</div>;
-  if (error)   return <div className="text-red-600 p-4 text-sm">{error}</div>;
+  if (loading) return <div className="p-6 text-muted-foreground text-sm">Cargando menú...</div>;
+  if (error)   return <div className="text-destructive p-4 text-sm">{error}</div>;
 
   return (
     <aside
       ref={sidebarRef}
       className={`
         fixed z-30 inset-y-0 left-0 w-64 h-screen flex flex-col
-        bg-white border-r border-gray-200 shadow-md
+        bg-card border-r border-border shadow-md
         transition-transform duration-300
         ${isOpen ? "translate-x-0" : "-translate-x-full"}
         lg:translate-x-0 lg:static lg:shadow-none
@@ -134,37 +138,36 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
       style={{ minWidth: 256, maxWidth: 256 }}
     >
       {/* Header */}
-      <div className="px-5 pt-5 pb-3 border-b border-gray-100 flex-shrink-0 relative"
-           style={{ background: 'linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%)' }}>
-        <h2 className="font-display text-lg font-extrabold tracking-tight text-slate-800 leading-none">
-          Distri<span className="text-emerald-500">Gestión</span>
+      <div className="px-5 pt-5 pb-3 border-b border-border flex-shrink-0 relative bg-accent/40">
+        <h2 className="font-display text-lg font-extrabold tracking-tight text-foreground leading-none">
+          {appNamePrefix}<span className="text-primary">{appNameAccent}</span>
         </h2>
-        <p className="font-display text-[10px] font-semibold text-slate-400 tracking-widest uppercase mt-1.5">
+        <p className="font-display text-[10px] font-semibold text-muted-foreground tracking-widest uppercase mt-1.5">
           Sistema Empresarial
         </p>
         <button
-          className="absolute top-3 right-3 p-1 rounded-full bg-gray-100 hover:bg-gray-200 lg:hidden"
+          className="absolute top-3 right-3 p-1 rounded-full bg-muted hover:bg-accent lg:hidden"
           onClick={onClose}
           aria-label="Cerrar menú"
         >
-          <X className="w-5 h-5 text-gray-600" />
+          <X className="w-5 h-5 text-muted-foreground" />
         </button>
 
         {/* Buscador */}
         <div className="relative mt-3">
-          <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400 pointer-events-none" />
+          <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground pointer-events-none" />
           <input
             ref={searchRef}
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Buscar en el menú..."
-            className="w-full pl-8 pr-7 py-1.5 text-xs bg-white border border-gray-200 rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition"
+            className="w-full pl-8 pr-7 py-1.5 text-xs bg-background border border-border rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition"
           />
           {query && (
             <button
               onClick={() => { setQuery(""); searchRef.current?.focus(); }}
-              className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition"
+              className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition"
             >
               <XCircle className="w-3.5 h-3.5" />
             </button>
@@ -178,11 +181,11 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
           to="/app/dashboard"
           className={`flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium transition-all ${
             location.pathname === '/app/dashboard'
-              ? 'bg-blue-50 text-blue-700 border-l-4 border-blue-500'
-              : 'text-gray-700 hover:bg-gray-100 hover:text-blue-600'
+              ? 'bg-accent text-primary border-l-4 border-primary'
+              : 'text-foreground/80 hover:bg-accent/60 hover:text-primary'
           }`}
         >
-          <Home className={`w-4 h-4 shrink-0 ${location.pathname === '/app/dashboard' ? 'text-blue-600' : 'text-gray-400'}`} />
+          <Home className={`w-4 h-4 shrink-0 ${location.pathname === '/app/dashboard' ? 'text-primary' : 'text-muted-foreground'}`} />
           Inicio
         </Link>
       </div>
@@ -194,7 +197,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
         {query.trim() ? (
           searchResults.length > 0 ? (
             <div className="space-y-1">
-              <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider px-2 pb-1">
+              <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider px-2 pb-1">
                 {searchResults.length} resultado{searchResults.length !== 1 ? 's' : ''}
               </p>
               {searchResults.map(({ item, catLabel, catIcon }) => {
@@ -207,16 +210,16 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
                     to={item.ruta}
                     className={`flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm transition-all ${
                       isActive
-                        ? "bg-blue-50 text-blue-700 font-semibold border-l-4 border-blue-500"
-                        : "hover:bg-gray-100 text-gray-700 hover:text-blue-600"
+                        ? "bg-accent text-primary font-semibold border-l-4 border-primary"
+                        : "hover:bg-accent/60 text-foreground/80 hover:text-primary"
                     }`}
                   >
-                    <ItemIcon className={`w-4 h-4 shrink-0 ${isActive ? "text-blue-600" : "text-gray-400"}`} />
+                    <ItemIcon className={`w-4 h-4 shrink-0 ${isActive ? "text-primary" : "text-muted-foreground"}`} />
                     <div className="min-w-0">
                       <p className="truncate leading-tight">{item.nombre}</p>
                       <div className="flex items-center gap-1 mt-0.5">
-                        <CatIcon className="w-2.5 h-2.5 text-gray-300 shrink-0" />
-                        <span className="text-[10px] text-gray-400 truncate">{catLabel}</span>
+                        <CatIcon className="w-2.5 h-2.5 text-muted-foreground/70 shrink-0" />
+                        <span className="text-[10px] text-muted-foreground truncate">{catLabel}</span>
                       </div>
                     </div>
                   </Link>
@@ -225,9 +228,9 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
             </div>
           ) : (
             <div className="text-center py-8">
-              <Search className="w-8 h-8 text-gray-200 mx-auto mb-2" />
-              <p className="text-sm text-gray-400">Sin resultados</p>
-              <p className="text-xs text-gray-300 mt-0.5">"{query}"</p>
+              <Search className="w-8 h-8 text-muted-foreground/30 mx-auto mb-2" />
+              <p className="text-sm text-muted-foreground">Sin resultados</p>
+              <p className="text-xs text-muted-foreground/70 mt-0.5">"{query}"</p>
             </div>
           )
         ) : (
@@ -241,15 +244,15 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
                 <div key={cat.clave}>
                   <button
                     onClick={() => toggleExpand(cat.clave)}
-                    className="flex items-center justify-between w-full px-2 py-2 rounded-md hover:bg-gray-100 transition-colors"
+                    className="flex items-center justify-between w-full px-2 py-2 rounded-md hover:bg-accent/60 transition-colors"
                   >
                     <div className="flex items-center">
-                      <Icon className="w-4 h-4 mr-2 text-blue-600" />
-                      <span className="font-medium text-gray-800 text-sm">{cat.label}</span>
+                      <Icon className="w-4 h-4 mr-2 text-primary" />
+                      <span className="font-medium text-foreground text-sm">{cat.label}</span>
                     </div>
                     {isOpenCat
-                      ? <ChevronDown  className="w-4 h-4 text-gray-400" />
-                      : <ChevronRight className="w-4 h-4 text-gray-400" />
+                      ? <ChevronDown  className="w-4 h-4 text-muted-foreground" />
+                      : <ChevronRight className="w-4 h-4 text-muted-foreground" />
                     }
                   </button>
 
@@ -265,11 +268,11 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
                             to={item.ruta}
                             className={`flex items-center py-2 px-3 rounded-md text-sm transition-all duration-150 ${
                               isActive
-                                ? "bg-blue-50 text-blue-700 font-semibold border-l-4 border-blue-500"
-                                : "hover:bg-gray-100 hover:text-blue-600 text-gray-700"
+                                ? "bg-accent text-primary font-semibold border-l-4 border-primary"
+                                : "hover:bg-accent/60 hover:text-primary text-foreground/80"
                             }`}
                           >
-                            <ItemIcon className={`w-4 h-4 mr-2 ${isActive ? "text-blue-600" : "text-gray-500"}`} />
+                            <ItemIcon className={`w-4 h-4 mr-2 ${isActive ? "text-primary" : "text-muted-foreground"}`} />
                             {item.nombre}
                           </Link>
                         </li>

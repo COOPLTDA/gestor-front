@@ -1,7 +1,7 @@
 import { request } from './zonificacionRequest';
 import type { Grupo, Pdv, TipoGrupo, Zona } from '@/pages/zonificacion/types';
 
-const BASE = '/api/distrigestion/zonificacion';
+const BASE = '/api/gestor/zonificacion';
 
 export interface NuevoGrupo {
   nombre: string;

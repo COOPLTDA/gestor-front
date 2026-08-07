@@ -42,7 +42,7 @@ export default function DashboardFavoritos() {
 
   async function cargarFavoritos() {
     try {
-      const res = await fetchWithAuth('/api/distrigestion/dashboard-home/favoritos');
+      const res = await fetchWithAuth('/api/gestor/dashboard-home/favoritos');
       if (res.success) setFavoritos(res.data as Favorito[]);
     } catch {
       // silencioso
@@ -54,7 +54,7 @@ export default function DashboardFavoritos() {
     if (menuItems.length) return;
     setLoadingMenu(true);
     try {
-      const res = await fetchWithAuth('/api/distrigestion/menu');
+      const res = await fetchWithAuth('/api/gestor/menu');
       if (res.success) {
         const items: MenuItem[] = (res.data as any[]).flatMap((cat: any) =>
           cat.items.map((item: any) => ({
@@ -79,7 +79,7 @@ export default function DashboardFavoritos() {
       await quitarFavorito(item.clave);
     } else {
       try {
-        const res = await fetchWithAuth('/api/distrigestion/dashboard-home/favoritos', {
+        const res = await fetchWithAuth('/api/gestor/dashboard-home/favoritos', {
           method: 'POST',
           body: JSON.stringify({
             pagina_clave: item.clave,
@@ -97,7 +97,7 @@ export default function DashboardFavoritos() {
 
   async function quitarFavorito(clave: string) {
     try {
-      const res = await fetchWithAuth(`/api/distrigestion/dashboard-home/favoritos/${clave}`, {
+      const res = await fetchWithAuth(`/api/gestor/dashboard-home/favoritos/${clave}`, {
         method: 'DELETE',
       });
       if (res.success) {

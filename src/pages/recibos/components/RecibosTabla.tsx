@@ -880,7 +880,7 @@ const toggleSelectAll = () => {
           operacion={desvincularData.operacion}
           onClose={() => setDesvincularData(null)}
           onConfirm={async () => {
-            await fetchWithAuth("/api/distrigestion/conciliacion/hdr/desvincular", {
+            await fetchWithAuth("/api/gestor/conciliacion/hdr/desvincular", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({

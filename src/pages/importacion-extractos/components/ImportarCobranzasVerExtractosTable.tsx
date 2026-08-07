@@ -75,7 +75,7 @@ export function ImportarCobranzasVerExtractosTable({
   const [columnasGlobales, setColumnasGlobales] = useState<ColumnaGlobal[]>([]);
 
   useEffect(() => {
-    fetchWithAuth("/api/distrigestion/columnas-extra").then((res) => {
+    fetchWithAuth("/api/gestor/columnas-extra").then((res) => {
       if (res.success) setColumnasGlobales(res.data);
     });
   }, []);
@@ -168,7 +168,7 @@ export function ImportarCobranzasVerExtractosTable({
     if (!forzarExtracto) return;
     setForzando(true);
     setErrorForzar(null);
-    const res = await fetchWithAuth("/api/distrigestion/extractos/forzar-conciliacion", {
+    const res = await fetchWithAuth("/api/gestor/extractos/forzar-conciliacion", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ extractoId: forzarExtracto.id, observacion: obsTexto }),
@@ -185,7 +185,7 @@ export function ImportarCobranzasVerExtractosTable({
 
   async function deshacerForzado() {
     if (!confirmarRevertirId) return;
-    const res = await fetchWithAuth("/api/distrigestion/extractos/deshacer-forzado", {
+    const res = await fetchWithAuth("/api/gestor/extractos/deshacer-forzado", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ extractoId: confirmarRevertirId }),

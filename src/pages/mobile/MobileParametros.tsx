@@ -48,7 +48,7 @@ export default function MobileParametros() {
   // =======================================================
   const loadParametros = async () => {
     setLoading(true);
-    const res = await fetchWithAuth("/api/distrigestion/mobile-admin/parametros");
+    const res = await fetchWithAuth("/api/gestor/mobile-admin/parametros");
     const data = safeJson(res);
     if (data.success) {
       setParametros(data.data);
@@ -92,11 +92,11 @@ export default function MobileParametros() {
       descripcion: form.descripcion.trim(),
     };
 
-    let url = "/api/distrigestion/mobile-admin/parametros";
+    let url = "/api/gestor/mobile-admin/parametros";
     let method = "POST";
 
     if (form.id) {
-      url = `/api/distrigestion/mobile-admin/parametros/${form.id}`;
+      url = `/api/gestor/mobile-admin/parametros/${form.id}`;
       method = "PUT";
     }
 

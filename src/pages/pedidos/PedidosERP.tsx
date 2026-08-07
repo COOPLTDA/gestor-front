@@ -91,7 +91,7 @@ const PedidosERP: React.FC = () => {
       const params = new URLSearchParams();
       if (search.trim()) params.append("search", search.trim());
       selectedDias.forEach(d => params.append("dias", d));
-      const response = await fetchWithAuth(`/api/distrigestion/pedidos-reconfirmados?${params.toString()}`);
+      const response = await fetchWithAuth(`/api/gestor/pedidos-reconfirmados?${params.toString()}`);
       const result = await response.json();
       setPedidos(result.data || []);
     } finally {
@@ -176,7 +176,7 @@ const PedidosERP: React.FC = () => {
     setResultadoEnviados([]);
     setResultadoErrores([]);
     try {
-      const res = await fetchWithAuth("/api/distrigestion/pedidos-reconfirmados/enviar-erp", {
+      const res = await fetchWithAuth("/api/gestor/pedidos-reconfirmados/enviar-erp", {
         method: "POST",
         body: JSON.stringify({ pedidos: selectedRows })
       });

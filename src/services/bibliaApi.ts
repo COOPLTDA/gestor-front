@@ -67,11 +67,11 @@ function makeSyncSubscriber(path: string) {
   }
 }
 
-export const subscribeSyncAll = makeSyncSubscriber('/api/distrigestion/biblia/sync/all/stream')
-export const subscribeSyncHoy = makeSyncSubscriber('/api/distrigestion/biblia/sync/hoy/stream')
+export const subscribeSyncAll = makeSyncSubscriber('/api/gestor/biblia/sync/all/stream')
+export const subscribeSyncHoy = makeSyncSubscriber('/api/gestor/biblia/sync/hoy/stream')
 
 export function subscribeSyncEvents(onSyncComplete: () => void): () => void {
-  const es = new EventSource('/api/distrigestion/biblia/sync/events')
+  const es = new EventSource('/api/gestor/biblia/sync/events')
 
   es.onmessage = (msg) => {
     try {
@@ -86,7 +86,7 @@ export function subscribeSyncEvents(onSyncComplete: () => void): () => void {
 }
 
 export async function fetchSyncStatus(): Promise<{ lastSync: string | null; dataVersion: string; pedidosSnapshot: Record<string, number> }> {
-  return request('/api/distrigestion/biblia/sync/status')
+  return request('/api/gestor/biblia/sync/status')
 }
 
 export async function fetchPreparaciones(params: {
@@ -104,7 +104,7 @@ export async function fetchPreparaciones(params: {
   if (params.tipo) query.set('tipo', params.tipo);
   if (params.page) query.set('page', String(params.page));
   if (params.pageSize) query.set('pageSize', String(params.pageSize));
-  return request<Preparacion[]>(`/api/distrigestion/biblia/preparaciones?${query}`);
+  return request<Preparacion[]>(`/api/gestor/biblia/preparaciones?${query}`);
 }
 
 export async function fetchChoferes(params?: { fecha_desde?: string; fecha_hasta?: string; biblia_fecha?: string }): Promise<Chofer[]> {
@@ -113,11 +113,11 @@ export async function fetchChoferes(params?: { fecha_desde?: string; fecha_hasta
   if (params?.fecha_hasta) query.set('fecha_hasta', params.fecha_hasta)
   if (params?.biblia_fecha) query.set('biblia_fecha', params.biblia_fecha)
   const qs = query.toString()
-  return request<Chofer[]>(`/api/distrigestion/biblia/choferes${qs ? `?${qs}` : ''}`);
+  return request<Chofer[]>(`/api/gestor/biblia/choferes${qs ? `?${qs}` : ''}`);
 }
 
 export async function fetchCodigosDespacho(): Promise<CodigoDespacho[]> {
-  return request<CodigoDespacho[]>('/api/distrigestion/biblia/repartos');
+  return request<CodigoDespacho[]>('/api/gestor/biblia/repartos');
 }
 
 export async function asignarPreparacionAChofer(
@@ -128,7 +128,7 @@ export async function asignarPreparacionAChofer(
   codigoDespachoDestino?: string | number | null,
   sigmaSyncEstado?: string | null,
 ): Promise<void> {
-  await request(`/api/distrigestion/biblia/asignaciones/${preparacionId}/chofer`, {
+  await request(`/api/gestor/biblia/asignaciones/${preparacionId}/chofer`, {
     method: 'PUT',
     body: JSON.stringify({
       chofer_codigo: choferCodigo,
@@ -143,7 +143,7 @@ export async function asignarPreparacionAChofer(
 export async function asignarPreparacionesBatch(
   asignaciones: { preparacion_id: number; chofer_codigo: string; biblia_fecha: string; preparacion_fecha: string }[],
 ): Promise<{ ok: boolean; count: number }> {
-  return request(`/api/distrigestion/biblia/asignaciones/batch`, {
+  return request(`/api/gestor/biblia/asignaciones/batch`, {
     method: 'POST',
     body: JSON.stringify({ asignaciones }),
   });
@@ -157,41 +157,41 @@ export async function fetchAsignaciones(): Promise<{
   codigo_despacho_destino?: string | null;
   sigma_sync_estado?: SigmaSyncEstado;
 }[]> {
-  return request(`/api/distrigestion/biblia/asignaciones`);
+  return request(`/api/gestor/biblia/asignaciones`);
 }
 
 export async function searchChoferes(query: string): Promise<Chofer[]> {
-  return request<Chofer[]>(`/api/distrigestion/biblia/choferes/search?q=${encodeURIComponent(query)}`);
+  return request<Chofer[]>(`/api/gestor/biblia/choferes/search?q=${encodeURIComponent(query)}`);
 }
 
 export async function searchCodigosDespacho(query: string): Promise<CodigoDespacho[]> {
-  return request<CodigoDespacho[]>(`/api/distrigestion/biblia/repartos/search?q=${encodeURIComponent(query)}`);
+  return request<CodigoDespacho[]>(`/api/gestor/biblia/repartos/search?q=${encodeURIComponent(query)}`);
 }
 
 export async function fetchRepartosExcepcionales(fecha?: string): Promise<RepartoExcepcional[]> {
   const query = fecha ? `?fecha=${fecha}` : ''
-  return request<RepartoExcepcional[]>(`/api/distrigestion/biblia/repartos-excepcionales${query}`);
+  return request<RepartoExcepcional[]>(`/api/gestor/biblia/repartos-excepcionales${query}`);
 }
 
 export async function crearRepartoExcepcional(data: { chofer_codigo: string; chofer_nombre: string; codigo_reparto: string; codigo_despacho_id: string; fecha: string }): Promise<RepartoExcepcional> {
-  return request<RepartoExcepcional>(`/api/distrigestion/biblia/repartos-excepcionales`, {
+  return request<RepartoExcepcional>(`/api/gestor/biblia/repartos-excepcionales`, {
     method: 'POST',
     body: JSON.stringify(data),
   });
 }
 
 export async function eliminarRepartoExcepcional(id: number): Promise<void> {
-  await request(`/api/distrigestion/biblia/repartos-excepcionales/${id}`, { method: 'DELETE' });
+  await request(`/api/gestor/biblia/repartos-excepcionales/${id}`, { method: 'DELETE' });
 }
 
 export async function limpiarAsignacionesBiblia(bibliaFecha: string): Promise<{ ok: boolean; deleted: number }> {
-  return request(`/api/distrigestion/biblia/asignaciones/biblia/${bibliaFecha}`, { method: 'DELETE' });
+  return request(`/api/gestor/biblia/asignaciones/biblia/${bibliaFecha}`, { method: 'DELETE' });
 }
 
 export async function fetchRangoBiblia(
   bibliaFecha: string,
 ): Promise<{ fecha_desde: string; fecha_hasta: string } | null> {
-  return request(`/api/distrigestion/biblia/reportes/rango-biblia?biblia_fecha=${bibliaFecha}`);
+  return request(`/api/gestor/biblia/reportes/rango-biblia?biblia_fecha=${bibliaFecha}`);
 }
 
 export interface ResumenChoferPrep {
@@ -217,7 +217,7 @@ export interface ResumenChofer {
 }
 
 export async function fetchResumenBiblia(bibliaFecha: string): Promise<ResumenChofer[]> {
-  return request<ResumenChofer[]>(`/api/distrigestion/biblia/reportes/resumen-biblia?biblia_fecha=${bibliaFecha}`)
+  return request<ResumenChofer[]>(`/api/gestor/biblia/reportes/resumen-biblia?biblia_fecha=${bibliaFecha}`)
 }
 
 export async function fetchRepartosPorDireccion(
@@ -228,7 +228,7 @@ export async function fetchRepartosPorDireccion(
   const hasta = fechaHasta ?? fechaDesde;
   const params = new URLSearchParams({ fecha_desde: fechaDesde, fecha_hasta: hasta });
   if (bibliaFecha) params.set('biblia_fecha', bibliaFecha);
-  return request<GrupoDireccion[]>(`/api/distrigestion/biblia/reportes/repartos-por-direccion?${params}`);
+  return request<GrupoDireccion[]>(`/api/gestor/biblia/reportes/repartos-por-direccion?${params}`);
 }
 
 export interface MapaCliente {
@@ -250,7 +250,7 @@ export async function fetchMapaClientes(
   const hasta = fechaHasta ?? fechaDesde
   const params = new URLSearchParams({ fecha_desde: fechaDesde, fecha_hasta: hasta })
   if (bibliaFecha) params.set('biblia_fecha', bibliaFecha)
-  return request<MapaCliente[]>(`/api/distrigestion/biblia/reportes/mapa-clientes?${params}`)
+  return request<MapaCliente[]>(`/api/gestor/biblia/reportes/mapa-clientes?${params}`)
 }
 
 // --- Mantenimiento (CRUD admin) ---
@@ -281,53 +281,53 @@ export interface ZonaAdmin {
 }
 
 export async function fetchAllChoferes(): Promise<ChoferAdmin[]> {
-  return request<ChoferAdmin[]>('/api/distrigestion/biblia/choferes/all');
+  return request<ChoferAdmin[]>('/api/gestor/biblia/choferes/all');
 }
 
 export async function fetchAllCodigosDespacho(): Promise<CodigoDespachoAdmin[]> {
-  return request<CodigoDespachoAdmin[]>('/api/distrigestion/biblia/repartos');
+  return request<CodigoDespachoAdmin[]>('/api/gestor/biblia/repartos');
 }
 
 export async function createChofer(codigo: string, descripcion: string, choferPadreCodigo?: string | null): Promise<void> {
-  await request('/api/distrigestion/biblia/choferes', {
+  await request('/api/gestor/biblia/choferes', {
     method: 'POST',
     body: JSON.stringify({ codigo, descripcion, chofer_padre_codigo: choferPadreCodigo ?? null }),
   });
 }
 
 export async function updateChofer(codigo: string, data: Partial<Pick<ChoferAdmin, 'descripcion' | 'desactivado' | 'chofer_padre_codigo'>>): Promise<void> {
-  await request(`/api/distrigestion/biblia/choferes/${encodeURIComponent(codigo)}`, {
+  await request(`/api/gestor/biblia/choferes/${encodeURIComponent(codigo)}`, {
     method: 'PUT',
     body: JSON.stringify(data),
   });
 }
 
 export async function updateCodigoDespacho(id: string, data: Partial<Pick<CodigoDespachoAdmin, 'zona_id' | 'desactivado'>>): Promise<void> {
-  await request(`/api/distrigestion/biblia/repartos/${encodeURIComponent(id)}`, {
+  await request(`/api/gestor/biblia/repartos/${encodeURIComponent(id)}`, {
     method: 'PUT',
     body: JSON.stringify(data),
   });
 }
 
 export async function asignarChoferCodigoDespacho(codigoDespachoId: string, choferCodigo: string): Promise<void> {
-  await request(`/api/distrigestion/biblia/repartos/${encodeURIComponent(codigoDespachoId)}/choferes`, {
+  await request(`/api/gestor/biblia/repartos/${encodeURIComponent(codigoDespachoId)}/choferes`, {
     method: 'POST',
     body: JSON.stringify({ chofer_codigo: choferCodigo }),
   });
 }
 
 export async function desasignarChoferCodigoDespacho(codigoDespachoId: string, choferCodigo: string): Promise<void> {
-  await request(`/api/distrigestion/biblia/repartos/${encodeURIComponent(codigoDespachoId)}/choferes/${encodeURIComponent(choferCodigo)}`, {
+  await request(`/api/gestor/biblia/repartos/${encodeURIComponent(codigoDespachoId)}/choferes/${encodeURIComponent(choferCodigo)}`, {
     method: 'DELETE',
   });
 }
 
 export async function fetchAllZonas(): Promise<ZonaAdmin[]> {
-  return request<ZonaAdmin[]>('/api/distrigestion/biblia/zonas');
+  return request<ZonaAdmin[]>('/api/gestor/biblia/zonas');
 }
 
 export async function createZona(nombre: string): Promise<number> {
-  const res = await request<{ id: number }>('/api/distrigestion/biblia/zonas', {
+  const res = await request<{ id: number }>('/api/gestor/biblia/zonas', {
     method: 'POST',
     body: JSON.stringify({ nombre }),
   });
@@ -335,7 +335,7 @@ export async function createZona(nombre: string): Promise<number> {
 }
 
 export async function updateZona(id: number, data: Partial<Pick<ZonaAdmin, 'nombre' | 'desactivado'>>): Promise<void> {
-  await request(`/api/distrigestion/biblia/zonas/${id}`, {
+  await request(`/api/gestor/biblia/zonas/${id}`, {
     method: 'PUT',
     body: JSON.stringify(data),
   });
@@ -355,7 +355,7 @@ export async function modificarPedido(
   preparacionId: number,
   bibliaFecha: string,
 ): Promise<void> {
-  await request(`/api/distrigestion/biblia/pedidos/${encodeURIComponent(pedidoId)}/reparto`, {
+  await request(`/api/gestor/biblia/pedidos/${encodeURIComponent(pedidoId)}/reparto`, {
     method: 'PUT',
     body: JSON.stringify({
       ...data,
@@ -374,7 +374,7 @@ export interface PedidoCambioEstado {
 }
 
 export async function fetchCambiosEstado(bibliaFecha: string): Promise<PedidoCambioEstado[]> {
-  return request<PedidoCambioEstado[]>(`/api/distrigestion/biblia/sigma/cambios-estado?biblia_fecha=${bibliaFecha}`);
+  return request<PedidoCambioEstado[]>(`/api/gestor/biblia/sigma/cambios-estado?biblia_fecha=${bibliaFecha}`);
 }
 
 export interface ImpactarEnSigmaResult {
@@ -387,7 +387,7 @@ export interface ImpactarEnSigmaResult {
 export async function impactarEnSigma(
   bibliaFecha: string,
 ): Promise<ImpactarEnSigmaResult> {
-  return request('/api/distrigestion/biblia/sigma/impactar', {
+  return request('/api/gestor/biblia/sigma/impactar', {
     method: 'POST',
     body: JSON.stringify({ biblia_fecha: bibliaFecha }),
   });

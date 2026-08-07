@@ -40,11 +40,11 @@ const ModalPermisosArbol: React.FC<Props> = ({
     setError("");
 
     Promise.all([
-      fetchWithAuth("/api/distrigestion/pages").then(async (r) => {
+      fetchWithAuth("/api/gestor/pages").then(async (r) => {
         if (!r.ok) throw new Error("Error cargando páginas");
         return r.json();
       }),
-      fetchWithAuth(`/api/distrigestion/users/${userId}/paginas`).then(async (r) => {
+      fetchWithAuth(`/api/gestor/users/${userId}/paginas`).then(async (r) => {
         if (!r.ok) throw new Error("Error cargando permisos");
         return r.json();
       }),
@@ -135,7 +135,7 @@ const ModalPermisosArbol: React.FC<Props> = ({
     setLoading(true);
 
     try {
-      const res = await fetchWithAuth(`/api/distrigestion/users/${userId}/paginas`, {
+      const res = await fetchWithAuth(`/api/gestor/users/${userId}/paginas`, {
         method: "POST",
         body: JSON.stringify({ paginas: seleccionadas }),
       });

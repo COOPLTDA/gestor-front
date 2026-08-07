@@ -117,7 +117,7 @@ const Usuarios: React.FC = () => {
     setLoading(true);
     setError('');
     try {
-      const response = await fetchWithAuth('/api/distrigestion/users');
+      const response = await fetchWithAuth('/api/gestor/users');
       if (!response.ok) throw new Error('Error cargando usuarios');
       const result = await response.json() as { data: Usuario[] };
       setUsuarios(
@@ -183,7 +183,7 @@ const Usuarios: React.FC = () => {
         };
         if (form.password) body.password = form.password;
 
-        response = await fetchWithAuth(`/api/distrigestion/users/${editingUser.id}`, {
+        response = await fetchWithAuth(`/api/gestor/users/${editingUser.id}`, {
           method: 'PUT',
           body: JSON.stringify(body),
         });
@@ -199,7 +199,7 @@ const Usuarios: React.FC = () => {
           body.password = form.password;
         }
 
-        response = await fetchWithAuth('/api/distrigestion/users', {
+        response = await fetchWithAuth('/api/gestor/users', {
           method: 'POST',
           body: JSON.stringify(body),
         });
@@ -249,7 +249,7 @@ const Usuarios: React.FC = () => {
     const esBloqueo = confirmModal.accion === 'bloquear';
 
     try {
-      const response = await fetchWithAuth(`/api/distrigestion/users/${id}`, {
+      const response = await fetchWithAuth(`/api/gestor/users/${id}`, {
         method: 'PUT',
         body: JSON.stringify({ activo: !esBloqueo }),
       });

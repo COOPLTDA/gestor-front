@@ -136,7 +136,7 @@ const Pedidos: React.FC = () => {
       params.append("page", String(page));
       params.append("limit", String(limit));
 
-      const response = await fetchWithAuth(`/api/distrigestion/pedidos?${params.toString()}`);
+      const response = await fetchWithAuth(`/api/gestor/pedidos?${params.toString()}`);
       const result = await response.json();
       if (!result.success) throw new Error(result.message || "Error cargando pedidos");
       setPedidos(result.data);

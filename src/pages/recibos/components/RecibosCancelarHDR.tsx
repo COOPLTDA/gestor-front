@@ -39,7 +39,7 @@ const RecibosCancelarHDR: React.FC<Props> = ({
       let errores = 0;
 
       for (const hojaRuta of hojaRutas) {
-        const res = await fetchWithAuth("/api/distrigestion/erp/cancelarHDR", {
+        const res = await fetchWithAuth("/api/gestor/erp/cancelarHDR", {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ hojaRuta }),

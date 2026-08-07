@@ -62,7 +62,7 @@ const ArticuloHelper: React.FC<{
     if (!open) return;
     setLoading(true);
     try {
-      const res = await fetchWithAuth(`/api/distrigestion/articulos?search=${encodeURIComponent(search)}&lista=${listaSel}`);
+      const res = await fetchWithAuth(`/api/gestor/articulos?search=${encodeURIComponent(search)}&lista=${listaSel}`);
       const data = await res.json();
       setArticulos(data.data || []);
     } finally {
@@ -189,7 +189,7 @@ const PedidoDetalleModal: React.FC<PedidoDetalleModalProps> = ({
       let cancelado = false;
       async function cargarDetalle() {
         try {
-          const res = await fetchWithAuth(`/api/distrigestion/pedidos/${pedido.id_pedido}/detalle`);
+          const res = await fetchWithAuth(`/api/gestor/pedidos/${pedido.id_pedido}/detalle`);
           const data = await res.json();
           if (cancelado) return;
     
@@ -282,7 +282,7 @@ const PedidoDetalleModal: React.FC<PedidoDetalleModalProps> = ({
           }
   
           // Si no tiene listas → fetch
-          fetchWithAuth(`/api/distrigestion/articulos?search=${curr.articuloid}`)
+          fetchWithAuth(`/api/gestor/articulos?search=${curr.articuloid}`)
             .then((res) => res.json())
             .then((data) => {
               const art = data.data?.find((a: any) => a.articuloid === curr.articuloid);
@@ -401,7 +401,7 @@ const PedidoDetalleModal: React.FC<PedidoDetalleModalProps> = ({
           return it;
         }
         // Sino, buscar los precios (1 solo fetch por ítem)
-        const res = await fetchWithAuth(`/api/distrigestion/articulos?search=${it.articuloid}`);
+        const res = await fetchWithAuth(`/api/gestor/articulos?search=${it.articuloid}`);
         const data = await res.json();
         const art = data.data?.find((a: any) => a.articuloid === it.articuloid);
         if (art && art.precios && art.precios.length >= 6) {
@@ -435,7 +435,7 @@ const PedidoDetalleModal: React.FC<PedidoDetalleModalProps> = ({
     
 
     // 3. Guardar normalmente
-    fetchWithAuth(`/api/distrigestion/pedidos/${pedido.id_pedido}/detalle`, {
+    fetchWithAuth(`/api/gestor/pedidos/${pedido.id_pedido}/detalle`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ items: itemsAEnviar, rentabilidadTotal: totalRentabilidad }),

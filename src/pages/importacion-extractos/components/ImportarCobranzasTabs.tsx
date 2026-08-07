@@ -56,7 +56,7 @@ export function ImportarCobranzasTabs() {
   }, []);
 
   async function cargarTiposCobro() {
-    const res = await fetchWithAuth("/api/distrigestion/tiposCobroConcilia");
+    const res = await fetchWithAuth("/api/gestor/tiposCobroConcilia");
     if (res.success) {
       setTiposCobro(res.data || []);
     }
@@ -77,7 +77,7 @@ export function ImportarCobranzasTabs() {
     if (h) params.append("hasta", h);
     if (conc && conc !== "todos") params.append("conciliados", conc);
 
-    const url = `/api/distrigestion/extractos${params.toString() ? `?${params.toString()}` : ""}`;
+    const url = `/api/gestor/extractos${params.toString() ? `?${params.toString()}` : ""}`;
     const res = await fetchWithAuth(url);
     setBuscando(false);
 
