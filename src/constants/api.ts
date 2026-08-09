@@ -44,45 +44,6 @@ export const API = {
   IMPORTADORES: `${DG}/importadores`,
   PARAMETROS: `${DG}/parametros`,
   CATALOGO: '/api/catalogo',
-  PRESUPUESTO_ENRO: {
-    BASE: `${DG}/presupuesto-enro`,
-    TABS: `${DG}/presupuesto-enro/tabs`,
-    CATALOGOS: `${DG}/presupuesto-enro/catalogos`,
-    PERIODOS_ANOS: `${DG}/presupuesto-enro/periodos/anos`,
-    EMPRESA: {
-      BASE: `${DG}/presupuesto-enro/empresa`,
-      QUERY: `${DG}/presupuesto-enro/empresa/query`,
-      HIST_MPAA: `${DG}/presupuesto-enro/empresa/hist-mpaa`,
-    },
-    ZONA: {
-      BASE: `${DG}/presupuesto-enro/zona`,
-      QUERY: `${DG}/presupuesto-enro/zona/query`,
-    },
-    SUPERVISOR: {
-      BASE: `${DG}/presupuesto-enro/supervisor`,
-      QUERY: `${DG}/presupuesto-enro/supervisor/query`,
-    },
-    VENDEDOR: {
-      BASE: `${DG}/presupuesto-enro/vendedor`,
-      QUERY: `${DG}/presupuesto-enro/vendedor/query`,
-    },
-    CLIENTE: {
-      BASE: `${DG}/presupuesto-enro/cliente`,
-      QUERY: `${DG}/presupuesto-enro/cliente/query`,
-      FILTROS: `${DG}/presupuesto-enro/cliente/filtros`,
-    },
-    VALIDACION: {
-      QUERY: `${DG}/presupuesto-enro/validacion/query`,
-    },
-    MIGRAR: {
-      BASE: `${DG}/presupuesto-enro/migrar`,
-      CHECK: (mes: string) => `${DG}/presupuesto-enro/migrar/check?mes=${mes}`,
-      PERIODOS_DATOS: `${DG}/presupuesto-enro/migrar/periodos-datos`,
-      CLONAR: `${DG}/presupuesto-enro/migrar/clonar`,
-      VERSIONES: (mes: string | number) => `${DG}/presupuesto-enro/migrar/versiones/${mes}`,
-      RESTAURAR: `${DG}/presupuesto-enro/migrar/restaurar`,
-    },
-  },
   FICHAJES: {
     BASE: `${DG}/fichajes`,
     DETALLE: (empleado: string) => `${DG}/fichajes/detalle/${empleado}`,
@@ -133,6 +94,5 @@ export const ROUTES = {
   PARAMETROS: '/app/parametros',
   IMPORTADORES: '/app/importadores',
   IMPORTACION_EXTRACTOS: '/app/importacion-extractos',
-  PRESUPUESTO_ENRO: '/app/presupuesto-enro',
   FICHAJES: '/app/fichajes',
 } as const;

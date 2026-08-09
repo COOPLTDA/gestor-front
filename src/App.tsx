@@ -22,7 +22,6 @@ const Recibos              = lazy(() => import("./pages/recibos/Recibos"));
 const Parametros           = lazy(() => import("./pages/Parametros"));
 const Importadores         = lazy(() => import("./pages/Importadores"));
 const ImportacionExtractos = lazy(() => import("./pages/importacion-extractos/ImportacionExtractos"));
-const PresupuestoEnro      = lazy(() => import("./pages/presupuesto-enro/PresupuestoEnro"));
 const ResetPassword        = lazy(() => import("./pages/ResetPassword"));
 const MobileUsuarios       = lazy(() => import("./pages/mobile/MobileUsuarios"));
 const MobileRoles          = lazy(() => import("./pages/mobile/MobileRoles"));
@@ -155,12 +154,10 @@ function App() {
                   <Route path="parametros"            element={<ErrorBoundary><Parametros /></ErrorBoundary>} />
                   <Route path="importadores"          element={<ErrorBoundary><Importadores /></ErrorBoundary>} />
                   <Route path="importacion-extractos" element={<ErrorBoundary><ImportacionExtractos /></ErrorBoundary>} />
-                  <Route path="presupuesto-enro"      element={<ErrorBoundary><PresupuestoEnro /></ErrorBoundary>} />
 
                   {/* Aliases por compatibilidad */}
                   <Route path="Recibos"               element={<Navigate to="../recibos" replace />} />
                   <Route path="ImportacionExtractos"  element={<Navigate to="../importacion-extractos" replace />} />
-                  <Route path="presupuesto-enro/PresupuestoEnro" element={<Navigate to="../presupuesto-enro" replace />} />
 
                   <Route path="fichajes"              element={<ErrorBoundary><Fichajes /></ErrorBoundary>} />
 
